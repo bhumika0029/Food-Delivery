@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, {  useContext, useEffect, useState } from 'react'
 import { IoFastFoodSharp } from "react-icons/io5";
 import { GoSearch } from "react-icons/go";
 import { HiMiniShoppingBag } from "react-icons/hi2";
 import { HiMenuAlt3, HiX } from "react-icons/hi";  // menu + close icons
+import { dataContext } from '../context/UserContext';
+import { food_items } from '../food';
 
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  let {input,setInput,cate,setCate}=useContext(dataContext);
+  useEffect(()=>{
+  let newList=  food_items.filter((item)=>(item.food_name.toLowerCase().includes(input.toLowerCase())))
+  setCate(newList);
+  },[input]);
 
   return (
     <div className="w-full h-[80px] bg-white shadow-md flex justify-between items-center px-6 md:px-10 sticky top-0 z-50">
@@ -19,12 +27,16 @@ const Nav = () => {
       </div>
 
       {/* Search Bar (hidden on small screens) */}
-      <form className="hidden md:flex w-[45%] h-[45px] bg-gray-50 rounded-full shadow-inner items-center px-4 hover:shadow-lg transition-shadow">
+      <form className="hidden md:flex w-[45%] h-[45px] bg-gray-50 rounded-full shadow-inner items-center px-4 hover:shadow-lg transition-shadow"
+      onSubmit={(e)=>e.preventDefault()
+      }
+      >
         <GoSearch className="text-xl text-green-600 mr-3" />
         <input 
           type="text" 
           placeholder="Search for dishes, cuisines..." 
           className="w-full h-full bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm md:text-base"
+          onChange={(e)=>setInput(e.target.value)} value={input}
         />
       </form>
 
