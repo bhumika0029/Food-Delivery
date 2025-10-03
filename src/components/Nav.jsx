@@ -5,6 +5,7 @@ import { HiMiniShoppingBag } from "react-icons/hi2";
 import { HiMenuAlt3, HiX } from "react-icons/hi";  // menu + close icons
 import { dataContext } from '../context/UserContext';
 import { food_items } from '../food';
+import { useSelector } from 'react-redux';
 
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,8 @@ const Nav = () => {
   let newList=  food_items.filter((item)=>(item.food_name.toLowerCase().includes(input.toLowerCase())))
   setCate(newList);
   },[input]);
+
+  let items=useSelector(state=>state)
 
   return (
     <div className="w-full h-[80px] bg-white shadow-md flex justify-between items-center px-6 md:px-10 sticky top-0 z-50">
@@ -49,7 +52,7 @@ const Nav = () => {
             <HiMiniShoppingBag className="w-[24px] h-[24px] text-green-600" />
           </div>
           <span className="absolute -top-1 -right-1 bg-green-600 text-white w-[18px] h-[18px] text-[11px] font-medium rounded-full flex justify-center items-center shadow-md">
-            0
+          {items.cart.length}
           </span>
         </div>
 
