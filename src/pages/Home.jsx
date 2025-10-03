@@ -4,10 +4,12 @@ import { category } from '../Category'
 import Card from '../components/Card'
 import { food_items } from '../food'
 import { dataContext } from '../context/UserContext'
+import { RxCross2 } from "react-icons/rx";
+import Card2 from '../components/Card2'
 
 const Home = () => {
 
-  let {cate, setCate,input}=useContext(dataContext);
+  let {cate, setCate,input,showcart,setShowcart}=useContext(dataContext);
 
 function filter(category){
   if(category==="All"){
@@ -51,6 +53,15 @@ function filter(category){
            id={item.id} type={item.food_type} />
         ))}
       </div>
+
+     <div className={`w-[36vw] h-[100%] fixed top-0 right-0 bg-white shadow-xl ${showcart ? "translate-x-0" : "translate-x-full"} transition-transform duration-300`} >
+  <header className='w-100% flex justify-between items-center mt-23 p-3'>
+    <span className='text-green-400 text-[18px] font-semibold '>  Order Items</span>
+    <RxCross2 className= ' w-[22px] h-[32px] text-green-400 text-[23px] font-semibold cursor-pointer hover:text-gray-400' onClick={()=>setShowcart(false)}/>
+  </header>
+  <Card2/>
+</div>
+
     </div>
   )
 }

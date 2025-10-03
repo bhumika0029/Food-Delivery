@@ -9,7 +9,7 @@ import { food_items } from '../food';
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  let {input,setInput,cate,setCate}=useContext(dataContext);
+  let {input,setInput,cate,setCate,showcart,setShowcart}=useContext(dataContext);
   useEffect(()=>{
   let newList=  food_items.filter((item)=>(item.food_name.toLowerCase().includes(input.toLowerCase())))
   setCate(newList);
@@ -44,7 +44,8 @@ const Nav = () => {
       <div className="flex items-center gap-4">
         {/* Cart */}
         <div className="relative flex items-center cursor-pointer hover:scale-110 transition-transform">
-          <div className="w-[50px] h-[50px] bg-green-100 flex justify-center items-center rounded-xl shadow-md">
+          <div className="w-[50px] h-[50px] bg-green-100 flex justify-center items-center rounded-xl shadow-md"
+          onClick={()=>setShowcart(true)}>
             <HiMiniShoppingBag className="w-[24px] h-[24px] text-green-600" />
           </div>
           <span className="absolute -top-1 -right-1 bg-green-600 text-white w-[18px] h-[18px] text-[11px] font-medium rounded-full flex justify-center items-center shadow-md">
