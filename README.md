@@ -1,2 +1,2 @@
 # Food-Delivery
-Using React.js
+Using React.js and redux
