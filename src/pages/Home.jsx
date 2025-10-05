@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import Nav from "../components/Nav";
 import { category } from "../Category";
 import Card from "../components/Card";
@@ -7,6 +6,9 @@ import { dataContext } from "../context/UserContext";
 import { RxCross2 } from "react-icons/rx";
 import Card2 from "../components/Card2";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";  // ✅ import toastify
+import "react-toastify/dist/ReactToastify.css"; // ✅ import styles
 
 const Home = () => {
   const { cate, setCate, input, showcart, setShowcart } = useContext(dataContext);
@@ -26,10 +28,26 @@ const Home = () => {
     }
   }
 
+  // ✅ Toast when item added
+  const handleAddToast = (itemName) => {
+    toast.success(`${itemName} added to cart 🛒`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
   return (
     <div className="bg-slate-100 min-h-screen w-full">
       {/* Navbar */}
       <Nav />
+
+      {/* Toast Container */}
+      <ToastContainer />
 
       {/* Category Buttons */}
       {!input && (
@@ -60,6 +78,7 @@ const Home = () => {
             name={item.food_name}
             id={item.id}
             type={item.food_type}
+            onAdd={() => handleAddToast(item.food_name)}  // ✅ Trigger toast
           />
         ))}
       </div>
@@ -92,32 +111,42 @@ const Home = () => {
               />
             ))
           ) : (
-            <div className="text-gray-500 text-center mt-10">Your cart is empty</div>
+            <div className="flex flex-col items-center justify-center text-gray-500 mt-20">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+                alt="Empty Cart"
+                className="w-32 h-32 mb-4 opacity-80"
+              />
+              <p className="text-lg font-medium">Your cart is empty</p>
+              <p className="text-sm">Start adding delicious items!</p>
+            </div>
           )}
         </div>
 
         {/* Cart Summary */}
-        <div className="border-t border-gray-200 p-4 space-y-2">
-          <div className="flex justify-between">
-            <span className="text-gray-600">Subtotal</span>
-            <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
+        {items.length > 0 && (
+          <div className="border-t border-gray-200 p-4 space-y-2">
+            <div className="flex justify-between">
+              <span className="text-gray-600">Subtotal</span>
+              <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Delivery Fee</span>
+              <span className="font-semibold">₹{deliveryFee.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Tax</span>
+              <span className="font-semibold">₹{tax.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-lg font-bold mt-2">
+              <span>Total</span>
+              <span>₹{total.toFixed(2)}</span>
+            </div>
+            <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+              Checkout
+            </button>
           </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Delivery Fee</span>
-            <span className="font-semibold">₹{deliveryFee.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Tax</span>
-            <span className="font-semibold">₹{tax.toFixed(2)}</span>
-          </div>
-          <div className="flex justify-between text-lg font-bold mt-2">
-            <span>Total</span>
-            <span>₹{total.toFixed(2)}</span>
-          </div>
-          <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
-            Checkout
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

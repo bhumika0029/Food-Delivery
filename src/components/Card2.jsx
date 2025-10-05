@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { RemoveItem } from "../redux/cartSlice";
+import { DecrementItem, IncrementItem, RemoveItem } from "../redux/cartSlice";
 
 const Card2 = ({ image, name, price, quantity,id}) => {
 
@@ -30,9 +30,9 @@ let dispatch=useDispatch();
           
           {/* Quantity Controls */}
           <div className="flex items-center bg-gray-100 rounded-full px-3 py-1 gap-2">
-            <button className="text-gray-600 hover:text-gray-900 font-bold">-</button>
+            <button className="text-gray-600 hover:text-gray-900 font-bold" onClick={() => quantity > 1 && dispatch(DecrementItem(id))}>-</button>
             <span className="text-gray-800 font-medium px-2">{quantity}</span>
-            <button className="text-gray-600 hover:text-gray-900 font-bold">+</button>
+            <button className="text-gray-600 hover:text-gray-900 font-bold" onClick={() => dispatch(IncrementItem(id))}>+</button>
           </div>
 
           {/* Price */}
